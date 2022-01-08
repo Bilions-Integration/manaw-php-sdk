@@ -1,0 +1,21 @@
+{
+  "name": "bilions/manaw-php",
+  "description": "PHP SDK for MaNaw Store API",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "AJ",
+      "email": "necessarylion@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "Bilions\\MaNaw\\": "src/"
+    }
+  },
+  "require": {
+    "guzzlehttp/guzzle": "^7.0"
+  }
+}
