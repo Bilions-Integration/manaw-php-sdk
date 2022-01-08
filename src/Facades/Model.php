@@ -1,5 +1,5 @@
 <?php
-namespace Bilions\MaNaw;
+namespace Bilions\MaNaw\Facades;
 
 /**
  * MaNaw Helper class

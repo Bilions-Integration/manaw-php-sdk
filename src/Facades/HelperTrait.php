@@ -1,9 +1,10 @@
 <?php
-namespace Bilions\MaNaw;
+namespace Bilions\MaNaw\Facades;
 
 use Exception;
-use GuzzleHttp\Client;
 use GuzzleHttp\Psr7;
+use GuzzleHttp\Client;
+use Bilions\MaNaw\MaNaw;
 
 /**
  * Helper Trait

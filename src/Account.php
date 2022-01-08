@@ -1,6 +1,8 @@
 <?php
 namespace Bilions\MaNaw;
 
+use Bilions\MaNaw\Facades\Model;
+
 /**
  * accounts Object
  *
