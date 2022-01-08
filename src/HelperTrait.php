@@ -20,6 +20,13 @@ trait HelperTrait {
   protected $result;
 
   /**
+  * set http params
+  *
+  * @var object
+  */
+  public $params = [];
+
+  /**
    * get http client
    *
    * @return Client
@@ -39,6 +46,21 @@ trait HelperTrait {
         'Authorization' => 'Bearer ' . MaNaw::$config['secret_key'],
       ],
     ]);
+  }
+
+  /**
+   * create object
+   *
+   * @return this
+   */
+  protected function _custom($method, $route, $params = []) {
+    $response     = $this->getClient()
+    ->request($method, 
+      ltrim($route, '/'), 
+      $this->getParams($params)
+    );
+    $this->result = $response;
+    return $this->_get();
   }
 
   /**
@@ -100,8 +122,11 @@ trait HelperTrait {
     return $this->_get();
   }
 
-  protected function getParams() {
-    $params = $this->params;
+  protected function getParams($p = null) {
+    $params = $p ? $p : $this->params;
+    if (count($params) == 0) {
+      return [];
+    }
     $ret    = [];
     foreach ($params as $key => $value) {
       if (substr($value, 0, 6 ) === 'file::') {
