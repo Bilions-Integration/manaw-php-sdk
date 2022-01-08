@@ -34,8 +34,11 @@ $category = Category::get([
 ```
 use Bilions\MaNaw\Category;
 
+$filePath = '/temp/image.png';
+
 $category = Category::create([
-  'name' => 'Test Category'
+  'name'  => 'Test Category'
+  'image' => 'file::'. $filePath,
 ]);
 ```
 
