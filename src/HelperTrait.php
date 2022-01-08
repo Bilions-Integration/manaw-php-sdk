@@ -3,6 +3,7 @@ namespace Bilions\MaNaw;
 
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
 
 /**
  * Helper Trait
@@ -36,7 +37,6 @@ trait HelperTrait {
       'base_uri' => $baseUri,
       'headers'  => [
         'Authorization' => 'Bearer ' . MaNaw::$config['secret_key'],
-        'Accept'        => 'application/json',
       ],
     ]);
   }
@@ -50,7 +50,7 @@ trait HelperTrait {
     $response     = $this->getClient()
     ->request('POST', 
       ltrim($this->route, '/'), 
-      ['json' => $this->params]
+      $this->getParams()
     );
     $this->result = $response;
     return $this->_get();
@@ -63,9 +63,9 @@ trait HelperTrait {
    */
   protected function _update($id) {
     $response = $this->getClient()
-    ->request('PUT', 
-      trim($this->route, '/') . '/' . $id, 
-      ['json' => $this->params]
+    ->request('POST', 
+      trim($this->route, '/') . '/' . $id . '?_method=PUT' , 
+      $this->getParams()
     );
     $this->result = $response;
     return $this->_get();
@@ -98,6 +98,29 @@ trait HelperTrait {
       );
     $this->result = $response;
     return $this->_get();
+  }
+
+  protected function getParams() {
+    $params = $this->params;
+    $ret    = [];
+    foreach ($params as $key => $value) {
+      if (substr($value, 0, 6 ) === 'file::') {
+        $path  = str_replace('file::', '', $value);
+        $ret[] = [
+          'name'     => $key,
+          'contents' => Psr7\Utils::tryFopen($path, 'r'),
+        ];
+      } else {
+        $ret[] = [
+          'name'     => $key,
+          'contents' => is_array($value) ? json_encode($value) : $value,
+        ];
+      }
+    }
+    $p = [
+      'multipart' => $ret, 
+    ];
+    return $p;
   }
 
   /**
