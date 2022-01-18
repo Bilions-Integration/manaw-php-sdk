@@ -16,12 +16,12 @@ class ProductOption extends Model {
   * @param integer $id
   * @return this
   */
-  public static function optionGet($id) {
+  public static function get($id) {
     return self::getInstance()->_custom('GET', '/products/' . $id . '/product_options');
   }
 
   // Create Product Option
-  public static function optionCreate($id, $params = []) {
+  public static function create($id, $params = []) {
     return self::getInstance()->_custom('POST', '/products/' . $id . '/product_options', $params);
   }
 }
